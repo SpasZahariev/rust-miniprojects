@@ -1,0 +1,6 @@
+// struct that will store the state of the app
+// supports undo and redo state with a list/stack
+
+pub struct History {
+    history: Vec<Room>,
+}

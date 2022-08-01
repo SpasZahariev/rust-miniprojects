@@ -1,5 +1,6 @@
 mod my_structure;
 
+use colored::Colorize;
 use my_structure::kitchen;
 use my_structure::room::Room;
 
@@ -17,4 +18,11 @@ fn main() {
     dungeon_kitchen.knock_down_door();
     dungeon_kitchen.cook();
     dungeon_kitchen.steal_knives();
+
+    println!("Hello traveler, you've stumbled infront of an ordinary but very peculiar house...");
+    let is_running = true;
+
+    while is_running {
+        println!("{}", format!("What would you like to do?").green());
+    }
 }
