@@ -1,7 +1,6 @@
 use super::room::{Room, RoomType};
 
 pub struct Kitchen {
-    pub room_name: String,
     pub possible_actions: Vec<String>,
 }
 
@@ -17,7 +16,7 @@ impl Kitchen {
 
 impl Room for Kitchen {
     fn knock_down_door(&self) {
-        println!("You have entered the {}", self.room_name);
+        println!("You have entered the {}", self.get_room_type());
     }
 
     fn display_possible_actions(&self) {
