@@ -1,6 +1,7 @@
+#[derive(Hash, Eq, PartialEq, Debug)]
 pub enum Direction {
-    North,
-    Ease,
-    West,
-    South,
+    NORTH,
+    EAST,
+    WEST,
+    SOUTH,
 }

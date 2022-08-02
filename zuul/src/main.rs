@@ -1,19 +1,15 @@
 mod my_structure;
 
 use colored::Colorize;
-use my_structure::kitchen;
+use my_structure::direction::Direction;
 use my_structure::room::Room;
+use my_structure::{entrance, kitchen};
+use std::collections::HashMap;
 use std::io::stdin;
 
-fn main() {
-    let dungeon_kitchen = kitchen::Kitchen {
-        room_name: "the kitchen".to_string(),
-        possible_actions: vec![
-            "try cooking something".to_string(),
-            "check the cupboards".to_string(),
-        ],
-    };
+use my_structure::entrance::Entrance;
 
+fn main() {
     println!("GAME HAS BEGUN");
     println!("{:?}", dungeon_kitchen.possible_actions);
     dungeon_kitchen.knock_down_door();
@@ -34,4 +30,49 @@ fn main() {
         stdin().read_line(&mut user_input).unwrap();
         println!("this is what I saw: {}", user_input);
     }
+}
+
+fn make_game() -> Box<dyn Room> {
+    let dungeon_kitchen = Box::new(kitchen::Kitchen {
+        possible_actions: vec![
+            "try cooking something".to_string(),
+            "check the cupboards".to_string(),
+        ],
+        exits: HashMap::new(),
+    });
+    let temp_entrance = Box::new(entrance::Entrance {
+        possible_actions: vec![
+            "try cooking something".to_string(),
+            "check the cupboards".to_string(),
+        ],
+        exits: HashMap::new(),
+    });
+    //    let HashMap<Direction, Box<dyn Room>: my_map = HashMap::from([
+    // (Direction::EAST, Box::new(dungeon_kitchen)),
+    // (Direction::EAST, Box::new(dungeon_kitchen)),
+    // ]);
+
+    let random_map: HashMap<Direction, Box<dyn Room>> = HashMap::new();
+    random_map.insert(Direction::EAST, dungeon_kitchen);
+    random_map.insert(Direction::WEST, temp_entrance);
+
+    let random_map2: HashMap<Direction, Box<dyn Room>> = HashMap::from([
+        (Direction::EAST, dungeon_kitchen),
+        (Direction::WEST, temp_entrance),
+    ]);
+
+    let random_map3: HashMap<Direction, Box<dyn Room>> = [
+        (Direction::WEST, temp_entrance),
+        (Direction::EAST, dungeon_kitchen),
+    ]
+    .into();
+
+    // random_map.insert(Direction::EAST, dungeon_kitchen);
+    // random_map.insert(Direction::WEST, temp_entrance);
+
+    let entrance = entrance::Entrance {
+        possible_actions: vec!["ring bell".to_string(), "look around yourself".to_string()],
+        exits: random_map,
+    };
+    Box::new(entrance)
 }

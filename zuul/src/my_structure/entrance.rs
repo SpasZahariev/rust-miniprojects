@@ -5,12 +5,12 @@ use super::{
     room::{Room, RoomType},
 };
 
-pub struct Entrance<'a> {
+pub struct Entrance {
     pub possible_actions: Vec<String>,
-    pub exits: HashMap<Direction, &'a dyn Room>,
+    pub exits: HashMap<Direction, Box<dyn Room>>,
 }
 
-impl<'a> Entrance<'a> {
+impl Entrance {
     pub fn ring_reception_bell(&self) {
         println!("The bell chimes with a small zingg");
     }
@@ -20,7 +20,7 @@ impl<'a> Entrance<'a> {
     }
 }
 
-impl<'a> Room for Entrance<'a> {
+impl Room for Entrance {
     fn knock_down_door(&self) {
         println!("You have entered the {}", self.get_room_type());
     }

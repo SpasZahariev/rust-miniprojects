@@ -1,5 +1,7 @@
 use std::fmt::{self};
 
+use super::{entrance::Entrance, kitchen::Kitchen};
+
 // Debug macro makes my enum usable with debug print
 #[derive(Debug)]
 pub enum RoomType {

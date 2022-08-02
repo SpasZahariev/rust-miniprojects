@@ -1,7 +1,13 @@
-use super::room::{Room, RoomType};
+use std::collections::HashMap;
+
+use super::{
+    direction::Direction,
+    room::{Room, RoomType},
+};
 
 pub struct Kitchen {
     pub possible_actions: Vec<String>,
+    pub exits: HashMap<Direction, Box<dyn Room>>,
 }
 
 impl Kitchen {
