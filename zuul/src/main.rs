@@ -47,16 +47,14 @@ fn make_game() -> Box<dyn Room> {
         ],
         exits: HashMap::new(),
     });
-    //    let HashMap<Direction, Box<dyn Room>: my_map = HashMap::from([
-    // (Direction::EAST, Box::new(dungeon_kitchen)),
-    // (Direction::EAST, Box::new(dungeon_kitchen)),
-    // ]);
+    //    let HashMap<Direction, Box<dyn Room>: my_map = HashMap::from([ (Direction::EAST, Box::new(dungeon_kitchen)), (Direction::EAST,
+    //    Box::new(dungeon_kitchen)), ]);
 
     let random_map: HashMap<Direction, Box<dyn Room>> = HashMap::new();
     random_map.insert(Direction::EAST, dungeon_kitchen);
     random_map.insert(Direction::WEST, temp_entrance);
 
-    let random_map2: HashMap<Direction, Box<dyn Room>> = HashMap::from([
+    /*     let random_map2 = HashMap::<Direction, Box<dyn Room>>::from([
         (Direction::EAST, dungeon_kitchen),
         (Direction::WEST, temp_entrance),
     ]);
@@ -65,7 +63,7 @@ fn make_game() -> Box<dyn Room> {
         (Direction::WEST, temp_entrance),
         (Direction::EAST, dungeon_kitchen),
     ]
-    .into();
+    .into::<Direction, Box<dyn Room>>(); */
 
     // random_map.insert(Direction::EAST, dungeon_kitchen);
     // random_map.insert(Direction::WEST, temp_entrance);
