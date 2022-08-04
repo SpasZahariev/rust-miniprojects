@@ -21,10 +21,6 @@ impl Entrance {
 }
 
 impl Room for Entrance {
-    fn knock_down_door(&self) {
-        println!("You have entered the {}", self.get_room_type());
-    }
-
     fn display_possible_actions(&self) {
         println!("Here you can: {:?}", self.possible_actions);
     }

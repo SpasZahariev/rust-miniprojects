@@ -23,7 +23,9 @@ impl fmt::Display for RoomType {
 }
 
 pub trait Room {
-    fn knock_down_door(&self);
+    fn knock_down_door(&self) {
+        println!("You have entered the {}", self.get_room_type());
+    }
     fn display_possible_actions(&self);
     fn get_room_type(&self) -> RoomType;
 }

@@ -22,7 +22,10 @@ impl Kitchen {
 
 impl Room for Kitchen {
     fn knock_down_door(&self) {
-        println!("You have entered the {}", self.get_room_type());
+        println!(
+            "Tasty tasty Overridden Food... You have entered the {}",
+            self.get_room_type()
+        );
     }
 
     fn display_possible_actions(&self) {
