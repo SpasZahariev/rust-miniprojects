@@ -24,8 +24,8 @@ impl MainEntrance {
 }
 
 impl Room for MainEntrance {
-    fn get_possible_actions(&self) -> Vec<Rule> {
-        self.possible_actions
+    fn get_possible_actions(&self) -> &Vec<Rule> {
+        &self.possible_actions
     }
 
     fn get_room_type(&self) -> RoomType {

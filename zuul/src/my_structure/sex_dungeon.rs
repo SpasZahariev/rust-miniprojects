@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use super::{
     direction::Direction,
     room::{Room, RoomType},
+    rule_engine::Rule,
 };
 
 pub struct SexDungeon {
@@ -25,11 +26,11 @@ impl Room for SexDungeon {
         RoomType::SexDungeon
     }
 
-    fn get_possible_actions(&self) -> Vec<super::rule_engine::Rule> {
+    fn get_possible_actions(&self) -> &Vec<Rule> {
         todo!()
     }
 
-    fn add_possible_action(&mut self, rule: super::rule_engine::Rule) {
+    fn add_possible_action(&mut self, rule: Rule) {
         todo!()
     }
 }

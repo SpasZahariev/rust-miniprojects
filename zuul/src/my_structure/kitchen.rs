@@ -39,7 +39,7 @@ impl Room for Kitchen {
         self.possible_actions.push(rule);
     }
 
-    fn get_possible_actions(&self) -> Vec<Rule> {
-        self.possible_actions
+    fn get_possible_actions(&self) -> &Vec<Rule> {
+        &self.possible_actions
     }
 }

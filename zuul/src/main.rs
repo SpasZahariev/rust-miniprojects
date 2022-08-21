@@ -43,7 +43,7 @@ fn main() {
 }
 
 fn make_game() -> Box<dyn RuleEngine> {
-    let my_entrance = main_entrance::MainEntrance::default();
+    let mut my_entrance = main_entrance::MainEntrance::default();
     let main_entrance_available_actions = rule_engine::Rule {
         action_name: "actions".to_owned(),
         text_for_user: my_entrance.get_possible_action_names(),

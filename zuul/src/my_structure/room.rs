@@ -26,7 +26,7 @@ pub trait Room {
     fn knock_down_door(&self) {
         println!("You have entered the {}", self.get_room_type());
     }
-    fn get_possible_actions(&self) -> Vec<Rule>;
+    fn get_possible_actions(&self) -> &Vec<Rule>;
 
     fn get_possible_action_names(&self) -> Option<String> {
         let action_names: Vec<&str> = self

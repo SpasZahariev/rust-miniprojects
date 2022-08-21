@@ -14,7 +14,7 @@ impl Rule {
     }
     // Prints the text from the user action and Returns a Room or None if the action does not lead to another room
     fn get_outcome(&self) -> &Option<Box<dyn Room>> {
-        match self.text_for_user {
+        match &self.text_for_user {
             Some(text) => println!("{}", text),
             None => (),
         }
@@ -39,7 +39,10 @@ pub trait RuleEngine: Room {
     }
     // fn get_rules(&self) -> &Vec<Rule>;
 
-    fn execute_rule(&self, first_rule: &Rule) -> &Option<Box<dyn Room>> {
+    // fn execute_rule(&self, first_rule: &Rule) -> &Option<Box<dyn Room>> {
+    //     first_rule.get_outcome()
+    // }
+    fn execute_rule<'a>(&'a self, first_rule: &'a Rule) -> &Option<Box<dyn Room>> {
         first_rule.get_outcome()
     }
 }
