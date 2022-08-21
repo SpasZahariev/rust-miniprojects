@@ -23,21 +23,21 @@ impl Rule {
 }
 
 // Does the user input parsing. If it doesn't match anything returns a &None
-pub trait RuleEngine {
-    fn get_rules(&self) -> &Vec<Rule>;
+pub trait RuleEngine: Room {
     fn process(&self, user_input: &str) -> &Option<Box<dyn Room>> {
         let first_rule = self
-            .get_rules()
+            .get_possible_actions()
             .into_iter()
             .find(|rule| rule.evaluate(user_input));
 
         let outcome = match first_rule {
-            Some(first_rule) => self.execute_rule(first_rule),
+            Some(first_rule) => self.execute_rule(&first_rule),
             None => &None,
         };
 
         outcome
     }
+    // fn get_rules(&self) -> &Vec<Rule>;
 
     fn execute_rule(&self, first_rule: &Rule) -> &Option<Box<dyn Room>> {
         first_rule.get_outcome()

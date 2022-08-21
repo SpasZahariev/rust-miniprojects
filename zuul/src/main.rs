@@ -3,6 +3,7 @@ mod my_structure;
 use colored::Colorize;
 use my_structure::direction::Direction;
 use my_structure::room::Room;
+use my_structure::rule_engine::RuleEngine;
 use my_structure::{kitchen, main_entrance, rule_engine};
 use std::collections::HashMap;
 use std::io::stdin;
@@ -36,10 +37,12 @@ fn main() {
         let mut user_input = String::new();
         stdin().read_line(&mut user_input).unwrap();
         println!("this is what I saw: {}", user_input);
+
+        current_room.process(user_input.as_str());
     }
 }
 
-fn make_game() -> Box<dyn Room> {
+fn make_game() -> Box<dyn RuleEngine> {
     let my_entrance = main_entrance::MainEntrance::default();
     let main_entrance_available_actions = rule_engine::Rule {
         action_name: "actions".to_owned(),

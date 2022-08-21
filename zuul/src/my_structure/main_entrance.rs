@@ -38,7 +38,7 @@ impl Room for MainEntrance {
 }
 
 impl RuleEngine for MainEntrance {
-    fn get_rules(&self) -> &Vec<Rule> {
-        &self.possible_actions
-    }
+    // fn get_rules(&self) -> &Vec<Rule> {
+    //     &self.possible_actions
+    // }
 }
