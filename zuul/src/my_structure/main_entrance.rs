@@ -7,8 +7,9 @@ use super::{
 };
 
 pub struct MainEntrance {
-    pub possible_actions: Vec<String>,
-    pub exits: HashMap<Direction, Box<dyn Room>>,
+    // pub possible_actions: Vec<String>,
+    // pub exits: HashMap<Direction, Box<dyn Room>>,
+    pub possible_actions: Vec<Rule>,
 }
 
 impl MainEntrance {
@@ -23,7 +24,13 @@ impl MainEntrance {
 
 impl Room for MainEntrance {
     fn display_possible_actions(&self) {
-        println!("Here you can: {:?}", self.possible_actions);
+        let action_names: Vec<&str> = self
+            .possible_actions
+            .into_iter()
+            .map(|rule| rule.action_name.as_str())
+            .collect();
+
+        println!("Here you can: {:?}", action_names);
     }
 
     fn get_room_type(&self) -> RoomType {
@@ -33,6 +40,6 @@ impl Room for MainEntrance {
 
 impl RuleEngine for MainEntrance {
     fn get_rules(&self) -> &Vec<Rule> {
-        todo!()
+        &self.possible_actions
     }
 }
