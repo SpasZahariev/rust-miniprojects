@@ -1,6 +1,6 @@
 use std::fmt::{self};
 
-use super::{entrance::Entrance, kitchen::Kitchen};
+use super::{kitchen::Kitchen, main_entrance::MainEntrance};
 
 // Debug macro makes my enum usable with debug print
 #[derive(Debug)]

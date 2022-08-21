@@ -3,11 +3,11 @@ mod my_structure;
 use colored::Colorize;
 use my_structure::direction::Direction;
 use my_structure::room::Room;
-use my_structure::{entrance, kitchen};
+use my_structure::{kitchen, main_entrance};
 use std::collections::HashMap;
 use std::io::stdin;
 
-use my_structure::entrance::Entrance;
+use my_structure::main_entrance::MainEntrance;
 
 fn main() {
     println!("{}", format!("\n\n\nGAME HAS BEGUN").purple());
@@ -47,7 +47,7 @@ fn make_game() -> Box<dyn Room> {
         ],
         exits: HashMap::new(),
     });
-    let temp_entrance = Box::new(entrance::Entrance {
+    let temp_entrance = Box::new(main_entrance::MainEntrance {
         possible_actions: vec![
             "try cooking something".to_string(),
             "check the cupboards".to_string(),
@@ -75,7 +75,7 @@ fn make_game() -> Box<dyn Room> {
     // random_map.insert(Direction::EAST, dungeon_kitchen);
     // random_map.insert(Direction::WEST, temp_entrance);
 
-    let entrance = entrance::Entrance {
+    let entrance = main_entrance::MainEntrance {
         possible_actions: vec!["ring bell".to_string(), "look around yourself".to_string()],
         exits: random_map,
     };
