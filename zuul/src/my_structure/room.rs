@@ -1,6 +1,6 @@
 use std::fmt::{self};
 
-use super::{kitchen::Kitchen, main_entrance::MainEntrance};
+use super::{kitchen::Kitchen, main_entrance::MainEntrance, rule_engine::Rule};
 
 // Debug macro makes my enum usable with debug print
 #[derive(Debug)]
@@ -26,6 +26,21 @@ pub trait Room {
     fn knock_down_door(&self) {
         println!("You have entered the {}", self.get_room_type());
     }
-    fn display_possible_actions(&self);
+    fn get_possible_actions(&self) -> Vec<Rule>;
+
+    fn get_possible_action_names(&self) -> Option<String> {
+        let action_names: Vec<&str> = self
+            .get_possible_actions()
+            .into_iter()
+            .map(|rule| rule.action_name.as_str())
+            .collect();
+
+        let output = format!("{}, {:?}", "Here you can: ", action_names);
+        if action_names.len() > 0 {
+            return Some(output);
+        }
+        None
+    }
     fn get_room_type(&self) -> RoomType;
+    fn add_possible_action(&mut self, rule: Rule);
 }

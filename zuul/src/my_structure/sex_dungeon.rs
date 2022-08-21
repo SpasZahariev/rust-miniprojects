@@ -21,11 +21,15 @@ impl Room for SexDungeon {
         todo!()
     }
 
-    fn display_possible_actions(&self) {
-        println!("Here you can: {:?}", self.possible_actions);
-    }
-
     fn get_room_type(&self) -> RoomType {
         RoomType::SexDungeon
+    }
+
+    fn get_possible_actions(&self) -> Vec<super::rule_engine::Rule> {
+        todo!()
+    }
+
+    fn add_possible_action(&mut self, rule: super::rule_engine::Rule) {
+        todo!()
     }
 }

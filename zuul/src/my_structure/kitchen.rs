@@ -3,11 +3,14 @@ use std::collections::HashMap;
 use super::{
     direction::Direction,
     room::{Room, RoomType},
+    rule_engine::Rule,
 };
 
+#[derive(Default)]
 pub struct Kitchen {
-    pub possible_actions: Vec<String>,
-    pub exits: HashMap<Direction, Box<dyn Room>>,
+    // pub possible_actions: Vec<String>,
+    // pub exits: HashMap<Direction, Box<dyn Room>>,
+    pub possible_actions: Vec<Rule>,
 }
 
 impl Kitchen {
@@ -28,11 +31,15 @@ impl Room for Kitchen {
         );
     }
 
-    fn display_possible_actions(&self) {
-        println!("Here you can: {:?}", self.possible_actions);
-    }
-
     fn get_room_type(&self) -> RoomType {
         RoomType::Kitchen
+    }
+
+    fn add_possible_action(&mut self, rule: Rule) {
+        self.possible_actions.push(rule);
+    }
+
+    fn get_possible_actions(&self) -> Vec<Rule> {
+        self.possible_actions
     }
 }

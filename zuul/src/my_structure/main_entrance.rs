@@ -6,6 +6,7 @@ use super::{
     rule_engine::{Rule, RuleEngine},
 };
 
+#[derive(Default)]
 pub struct MainEntrance {
     // pub possible_actions: Vec<String>,
     // pub exits: HashMap<Direction, Box<dyn Room>>,
@@ -14,27 +15,25 @@ pub struct MainEntrance {
 
 impl MainEntrance {
     pub fn ring_reception_bell(&self) {
-        println!("The bell chimes with a small zingg");
+        println!("");
     }
 
     pub fn look_around(&self) {
-        println!("The place is decorated very plainly. I guess the owners are fans of IKEA minimalist designs");
+        println!("");
     }
 }
 
 impl Room for MainEntrance {
-    fn display_possible_actions(&self) {
-        let action_names: Vec<&str> = self
-            .possible_actions
-            .into_iter()
-            .map(|rule| rule.action_name.as_str())
-            .collect();
-
-        println!("Here you can: {:?}", action_names);
+    fn get_possible_actions(&self) -> Vec<Rule> {
+        self.possible_actions
     }
 
     fn get_room_type(&self) -> RoomType {
         RoomType::MainEntrance
+    }
+
+    fn add_possible_action(&mut self, rule: Rule) {
+        self.possible_actions.push(rule);
     }
 }
 

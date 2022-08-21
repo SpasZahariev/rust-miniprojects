@@ -4,8 +4,8 @@ use super::room::Room;
 // use std::option::Option;
 pub struct Rule {
     pub action_name: String,
-    pub outcome: Option<Box<dyn Room>>,
     pub text_for_user: Option<String>,
+    pub outcome: Option<Box<dyn Room>>,
 }
 
 impl Rule {
