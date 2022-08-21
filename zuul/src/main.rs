@@ -23,6 +23,9 @@ fn main() {
     );
     let is_running = true;
 
+    let mut current_room = make_game();
+
+    current_room.knock_down_door();
     while is_running {
         println!(
             "{}{}{}",

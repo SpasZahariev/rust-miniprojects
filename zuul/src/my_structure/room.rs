@@ -10,7 +10,7 @@ pub enum RoomType {
     Basement,
     Cemetary,
     Workshop,
-    Entrance,
+    MainEntrance,
 }
 
 //need to implement Display so that RoomTypes can be converted to strings and printed for Client facing messages

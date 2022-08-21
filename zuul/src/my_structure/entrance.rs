@@ -26,6 +26,6 @@ impl Room for Entrance {
     }
 
     fn get_room_type(&self) -> RoomType {
-        RoomType::Entrance
+        RoomType::MainEntrance
     }
 }
