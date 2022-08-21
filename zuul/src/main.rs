@@ -10,13 +10,17 @@ use std::io::stdin;
 use my_structure::entrance::Entrance;
 
 fn main() {
-    println!("GAME HAS BEGUN");
-    println!("{:?}", dungeon_kitchen.possible_actions);
-    dungeon_kitchen.knock_down_door();
-    dungeon_kitchen.cook();
-    dungeon_kitchen.steal_knives();
+    println!("{}", format!("\n\n\nGAME HAS BEGUN").purple());
+    // println!("{:?}", dungeon_kitchen.possible_actions);
+    // dungeon_kitchen.knock_down_door();
+    // dungeon_kitchen.cook();
+    // dungeon_kitchen.steal_knives();
 
-    println!("Hello traveler, you've stumbled before an ordinary but very peculiar house...");
+    println!(
+        "{}",
+        format!("Hello traveler, you've stumbled before an ordinary but very peculiar house...\n")
+            .purple()
+    );
     let is_running = true;
 
     while is_running {
@@ -50,7 +54,7 @@ fn make_game() -> Box<dyn Room> {
     //    let HashMap<Direction, Box<dyn Room>: my_map = HashMap::from([ (Direction::EAST, Box::new(dungeon_kitchen)), (Direction::EAST,
     //    Box::new(dungeon_kitchen)), ]);
 
-    let random_map: HashMap<Direction, Box<dyn Room>> = HashMap::new();
+    let mut random_map: HashMap<Direction, Box<dyn Room>> = HashMap::new();
     random_map.insert(Direction::EAST, dungeon_kitchen);
     random_map.insert(Direction::WEST, temp_entrance);
 
