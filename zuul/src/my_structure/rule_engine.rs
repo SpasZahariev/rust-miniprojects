@@ -4,6 +4,7 @@ use super::room::Room;
 // use std::option::Option;
 pub struct Rule {
     pub action_name: String,
+    // pub text_for_user: Box<dyn Fn() -> Option<String>>, // I want to compute this function every time I call get_outcome
     pub text_for_user: Option<String>,
     pub outcome: Option<Box<dyn Room>>,
 }
@@ -32,7 +33,10 @@ pub trait RuleEngine: Room {
 
         let outcome = match first_rule {
             Some(first_rule) => self.execute_rule(&first_rule),
-            None => &None,
+            None => {
+                println!("{}", "This input was invalid!!!");
+                &None
+            }
         };
 
         outcome
@@ -45,4 +49,9 @@ pub trait RuleEngine: Room {
     fn execute_rule<'a>(&'a self, first_rule: &'a Rule) -> &Option<Box<dyn Room>> {
         first_rule.get_outcome()
     }
+
+    // fn get_outcome_for_invalid_input() -> Option<Box<dyn Room>> {
+    //     println!("{}", format!("{}", "this input was invalid").pink());
+    //     None
+    // }
 }

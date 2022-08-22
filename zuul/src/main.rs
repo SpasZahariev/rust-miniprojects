@@ -30,15 +30,19 @@ fn main() {
     while is_running {
         println!(
             "{}{}{}",
-            format!("What would you like to do? (Type").green(),
+            format!("\nWhat would you like to do? (Type").green(),
             format!(" actions").red(),
             format!(" to see what you can do)").green()
         );
         let mut user_input = String::new();
         stdin().read_line(&mut user_input).unwrap();
-        println!("this is what I saw: {}", user_input);
+        let user_input = user_input.trim(); // remove the endline characters from the input
+        // println!("this is what I saw: {}", user_input);
 
-        current_room.process(user_input.as_str());
+        /*         println!("{:?}", user_input.trim().eq("123"));
+        println!("{:?}", "123".eq("123"));
+        println!("{:?}", "xyz" == "xyz"); */
+        current_room.process(user_input);
     }
 }
 
@@ -46,13 +50,15 @@ fn make_game() -> Box<dyn RuleEngine> {
     let mut my_entrance = main_entrance::MainEntrance::default();
     let main_entrance_available_actions = rule_engine::Rule {
         action_name: "actions".to_owned(),
-        text_for_user: my_entrance.get_possible_action_names(),
+        // text_for_user: my_entrance.get_possible_action_names(),
+        text_for_user: Some("actions, look_around, ring_reception_bell".to_owned()),
         outcome: None,
     };
 
-    let look_around_action= rule_engine::Rule {
+    let look_around_action = rule_engine::Rule {
         action_name: "look_around".to_owned(),
-        text_for_user: Some("The place is decorated very plainly. I guess the owners are fans of IKEA minimalist designs".to_owned()),
+        text_for_user: 
+            Some("The place is decorated very plainly. I guess the owners are fans of IKEA minimalist designs".to_owned()),
         outcome: None,
     };
 
