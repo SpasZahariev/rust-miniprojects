@@ -42,6 +42,10 @@ fn main() {
         /*         println!("{:?}", user_input.trim().eq("123"));
         println!("{:?}", "123".eq("123"));
         println!("{:?}", "xyz" == "xyz"); */
+        if user_input.eq("exit") {
+            println!("{}", format!("Thank you for playing! - GAME OVER").purple());
+            break;
+        }
         current_room.process(user_input);
     }
 }
