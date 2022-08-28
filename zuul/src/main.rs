@@ -120,7 +120,7 @@ fn setup_sex_dungeon() -> AllPurposeRoom {
 
     let easter_egg_action= rule_engine::Rule {
         action_name: "dusi".to_owned(),
-        text_for_user: Some("Oh no, the Spas has found you and slaps your cute butt ;) You suddenly regret searchign for this easter egg! ".to_owned()),
+        text_for_user: Some("Oh no, the Spas has found you and slaps your cute butt ;) You suddenly regret searching for this easter egg! ".to_owned()),
         outcome: None,
     };
     the_sex_dungeon.add_possible_action(sex_dungeon_actions);
