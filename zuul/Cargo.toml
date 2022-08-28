@@ -8,3 +8,9 @@ edition = "2018"
 
 [dependencies]
 colored = "2.0.0"
+
+
+[[bin]]
+edition = "2021"
+name = "spas_zuul_game"
+path = "src/main.rs"
