@@ -2,9 +2,11 @@ mod my_structure;
 
 use colored::Colorize;
 use my_structure::direction::Direction;
-use my_structure::room::{Room, RoomType};
+use my_structure::room::{self, Room, RoomType};
 use my_structure::rule_engine::RuleEngine;
-use my_structure::{kitchen, main_entrance, rule_engine, wine_celler, all_purpose_room};
+use my_structure::{
+    all_purpose_room::AllPurposeRoom, kitchen, main_entrance, rule_engine, wine_celler,
+};
 use std::collections::HashMap;
 use std::io::stdin;
 use std::rc::Rc;
@@ -38,7 +40,7 @@ fn main() {
         let mut user_input = String::new();
         stdin().read_line(&mut user_input).unwrap();
         let user_input = user_input.trim(); // remove the endline characters from the input
-        // println!("this is what I saw: {}", user_input);
+                                            // println!("this is what I saw: {}", user_input);
 
         /*         println!("{:?}", user_input.trim().eq("123"));
         println!("{:?}", "123".eq("123"));
@@ -53,96 +55,149 @@ fn main() {
             current_room = outcome.unwrap();
             current_room.knock_down_door();
         }
-
     }
 }
 
 fn make_game() -> Rc<dyn RuleEngine> {
-    let mut my_entrance = all_purpose_room::AllPurposeRoom::new(RoomType::MainEntrance);
-    let main_entrance_available_actions = rule_engine::Rule {
+    // let mut the_kitchen = kitchen::Kitchen::default();
+
+    let the_wine_place = setup_wine_place();
+
+    let the_sex = setup_sex_dungeon();
+    let the_kitchen = setup_kitchen(the_sex);
+
+    let my_entrance = setup_entrance(the_wine_place, the_kitchen);
+
+    Rc::new(my_entrance)
+}
+
+fn setup_wine_place() -> AllPurposeRoom {
+    let mut the_wine_place = AllPurposeRoom::new(RoomType::MainEntrance);
+    let room_specific_actions = "knock_barrels".to_owned();
+    let wine_celler_actions = rule_engine::Rule {
         action_name: "actions".to_owned(),
         // text_for_user: my_entrance.get_possible_action_names(),
-        text_for_user: Some("actions, look_around, ring_reception_bell, go_left, go_forward, exit".to_owned()),
+        text_for_user: Some(format!(
+            "{}{}{}",
+            "actions, ", room_specific_actions, ", exit"
+        )),
         outcome: None,
     };
-
-    let look_around_action = rule_engine::Rule {
-        action_name: "look_around".to_owned(),
-        text_for_user: 
-            Some("The place is decorated very plainly. I guess the owners are fans of IKEA minimalist designs".to_owned()),
-        outcome: None,
-    };
-
-    let ring_bell_action = rule_engine::Rule {
-        action_name: "ring_reception_bell".to_owned(),
-        text_for_user: Some("The bell chimes with a small zingg".to_owned()),
-        outcome: None,
-    };
-    // let mut the_kitchen = kitchen::Kitchen::default();
-    
-    let mut the_wine_place= all_purpose_room::AllPurposeRoom::new(RoomType::MainEntrance);
     let knock_on_wine_barrels = rule_engine::Rule {
         action_name: "knock_barrels".to_owned(),
         text_for_user: Some("You hear a hollow sound. They must be empty".to_owned()),
         outcome: None,
     };
-    let wine_celler_actions = rule_engine::Rule {
-        action_name: "actions".to_owned(),
-        // text_for_user: my_entrance.get_possible_action_names(),
-        text_for_user: Some("actions, knock_barrels, exit".to_owned()),
-        outcome: None,
-    };
     the_wine_place.add_possible_action(knock_on_wine_barrels);
     the_wine_place.add_possible_action(wine_celler_actions);
+    the_wine_place
+}
 
+fn setup_sex_dungeon() -> AllPurposeRoom {
+    let mut the_sex_dungeon = AllPurposeRoom::new(RoomType::SexDungeon);
+    let room_specific_actions = "lights, do_the_nasty".to_owned();
+    let sex_dungeon_actions = rule_engine::Rule {
+        action_name: "actions".to_owned(),
+        // text_for_user: my_entrance.get_possible_action_names(),
+        text_for_user: Some(format!(
+            "{}{}{}",
+            "actions, ", room_specific_actions, ", exit"
+        )),
+        outcome: None,
+    };
+    let turn_on_lights = rule_engine::Rule {
+        action_name: "lights".to_owned(),
+        text_for_user: Some(
+            "Yup, your eyes are not deceiving you... it is a sex dungeon".to_owned(),
+        ),
+        outcome: None,
+    };
+    let nasty_action = rule_engine::Rule {
+        action_name: "do_the_nasty".to_owned(),
+        text_for_user: Some("Wow... You must be pretty desperate to try that here!".to_owned()),
+        outcome: None,
+    };
+    the_sex_dungeon.add_possible_action(sex_dungeon_actions);
+    the_sex_dungeon.add_possible_action(turn_on_lights);
+    the_sex_dungeon.add_possible_action(nasty_action);
+    the_sex_dungeon
+}
+
+fn setup_kitchen(the_sex: AllPurposeRoom) -> AllPurposeRoom {
+    let mut the_kitchen = AllPurposeRoom::new(RoomType::Kitchen);
+    let room_specific_actions = "steal_knives, try_cooking, go_forward".to_owned();
+    let kitchen_actions = rule_engine::Rule {
+        action_name: "actions".to_owned(),
+        // text_for_user: my_entrance.get_possible_action_names(),
+        text_for_user: Some(format!(
+            "{}{}{}",
+            "actions, ", room_specific_actions, ", exit"
+        )),
+        outcome: None,
+    };
+    let steal_knives_action= rule_engine::Rule {
+        action_name: "steal_knives".to_owned(),
+        text_for_user: Some("You found some shiny knives in one of the lockers. Someone has sharpenned them recently".to_owned()),
+        outcome: None,
+    };
+    let try_cooking_action = rule_engine::Rule {
+        action_name: "try_cooking".to_owned(),
+        text_for_user: Some("You tried to cook something. It was very unssucessful!".to_owned()),
+        outcome: None,
+    };
+
+    let go_forward_action = rule_engine::Rule {
+        action_name: "go_forward".to_owned(),
+        text_for_user: Some(
+            "You find some dark stairs and decide it cant hurt to see what is down there"
+                .to_owned(),
+        ),
+        outcome: Some(Rc::new(the_sex)),
+    };
+    the_kitchen.add_possible_action(kitchen_actions);
+    the_kitchen.add_possible_action(steal_knives_action);
+    the_kitchen.add_possible_action(try_cooking_action);
+    the_kitchen.add_possible_action(go_forward_action);
+    the_kitchen
+}
+
+fn setup_entrance(the_wine_place: AllPurposeRoom, the_kitchen: AllPurposeRoom) -> AllPurposeRoom {
+    let mut my_entrance = AllPurposeRoom::new(RoomType::MainEntrance);
+    let room_specific_actions = "look_around, ring_reception_bell, go_left, go_right".to_owned();
+    let main_entrance_available_actions = rule_engine::Rule {
+        action_name: "actions".to_owned(),
+        // text_for_user: my_entrance.get_possible_action_names(),
+        text_for_user: Some(format!(
+            "{}{}{}",
+            "actions, ", room_specific_actions, ", exit"
+        )),
+        outcome: None,
+    };
+    let look_around_action = rule_engine::Rule {
+        action_name: "look_around".to_owned(),
+        text_for_user: Some("The place is decorated very plainly. I guess the owners are fans of IKEA minimalist designs".to_owned()),
+        outcome: None,
+    };
+    let ring_bell_action = rule_engine::Rule {
+        action_name: "ring_reception_bell".to_owned(),
+        text_for_user: Some("The bell chimes with a small zingg".to_owned()),
+        outcome: None,
+    };
     let go_to_left_room = rule_engine::Rule {
         action_name: "go_left".to_owned(),
         text_for_user: None,
         outcome: Some(Rc::new(the_wine_place)),
     };
+
+    let go_to_right_room = rule_engine::Rule {
+        action_name: "go_right".to_owned(),
+        text_for_user: None,
+        outcome: Some(Rc::new(the_kitchen)),
+    };
     my_entrance.add_possible_action(main_entrance_available_actions);
     my_entrance.add_possible_action(look_around_action);
     my_entrance.add_possible_action(ring_bell_action);
     my_entrance.add_possible_action(go_to_left_room);
-
-    // let dungeon_kitchen = Box::new(kitchen::Kitchen {
-    //     possible_actions: vec![
-    //         "try cooking something".to_string(),
-    //         "check the cupboards".to_string(),
-    //     ],
-    //     exits: HashMap::new(),
-    // });
-    // let temp_entrance = Box::new(main_entrance::MainEntrance {
-    //     possible_actions: vec![
-    //         "try cooking something".to_string(),
-    //         "check the cupboards".to_string(),
-    //     ],
-    //     exits: HashMap::new(),
-    // });
-    //    let HashMap<Direction, Box<dyn Room>: my_map = HashMap::from([ (Direction::EAST, Box::new(dungeon_kitchen)), (Direction::EAST,
-    //    Box::new(dungeon_kitchen)), ]);
-
-    // let mut random_map: HashMap<Direction, Box<dyn Room>> = HashMap::new();
-    // random_map.insert(Direction::EAST, dungeon_kitchen);
-    // random_map.insert(Direction::WEST, temp_entrance);
-
-    /*     let random_map2 = HashMap::<Direction, Box<dyn Room>>::from([
-        (Direction::EAST, dungeon_kitchen),
-        (Direction::WEST, temp_entrance),
-    ]);
-
-    let random_map3: HashMap<Direction, Box<dyn Room>> = [
-        (Direction::WEST, temp_entrance),
-        (Direction::EAST, dungeon_kitchen),
-    ]
-    .into::<Direction, Box<dyn Room>>(); */
-
-    // random_map.insert(Direction::EAST, dungeon_kitchen);
-    // random_map.insert(Direction::WEST, temp_entrance);
-
-    // let entrance = main_entrance::MainEntrance {
-    //     possible_actions: vec!["ring bell".to_string(), "look around yourself".to_string()],
-    //     exits: random_map,
-    // };
-    Rc::new(my_entrance)
+    my_entrance.add_possible_action(go_to_right_room);
+    my_entrance
 }
