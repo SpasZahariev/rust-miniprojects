@@ -4,9 +4,10 @@ use colored::Colorize;
 use my_structure::direction::Direction;
 use my_structure::room::Room;
 use my_structure::rule_engine::RuleEngine;
-use my_structure::{kitchen, main_entrance, rule_engine};
+use my_structure::{kitchen, main_entrance, rule_engine, wine_celler};
 use std::collections::HashMap;
 use std::io::stdin;
+use std::rc::Rc;
 
 use my_structure::main_entrance::MainEntrance;
 
@@ -46,16 +47,22 @@ fn main() {
             println!("{}", format!("Thank you for playing! - GAME OVER").purple());
             break;
         }
-        current_room.process(user_input);
+        let outcome: Option<Rc<dyn RuleEngine>> = current_room.process(user_input);
+
+        if outcome.is_some() {
+            current_room = outcome.unwrap();
+            current_room.knock_down_door();
+        }
+
     }
 }
 
-fn make_game() -> Box<dyn RuleEngine> {
+fn make_game() -> Rc<dyn RuleEngine> {
     let mut my_entrance = main_entrance::MainEntrance::default();
     let main_entrance_available_actions = rule_engine::Rule {
         action_name: "actions".to_owned(),
         // text_for_user: my_entrance.get_possible_action_names(),
-        text_for_user: Some("actions, look_around, ring_reception_bell".to_owned()),
+        text_for_user: Some("actions, look_around, ring_reception_bell, go_left, go_forward, exit".to_owned()),
         outcome: None,
     };
 
@@ -71,9 +78,32 @@ fn make_game() -> Box<dyn RuleEngine> {
         text_for_user: Some("The bell chimes with a small zingg".to_owned()),
         outcome: None,
     };
+    // let mut the_kitchen = kitchen::Kitchen::default();
+    
+    let mut the_wine_place = wine_celler::WineCeller::default();
+    let knock_on_wine_barrels = rule_engine::Rule {
+        action_name: "knock_barrels".to_owned(),
+        text_for_user: Some("You hear a hollow sound. They must be empty".to_owned()),
+        outcome: None,
+    };
+    let wine_celler_actions = rule_engine::Rule {
+        action_name: "actions".to_owned(),
+        // text_for_user: my_entrance.get_possible_action_names(),
+        text_for_user: Some("actions, knock_barrels, exit".to_owned()),
+        outcome: None,
+    };
+    the_wine_place.add_possible_action(knock_on_wine_barrels);
+    the_wine_place.add_possible_action(wine_celler_actions);
+
+    let go_to_left_room = rule_engine::Rule {
+        action_name: "go_left".to_owned(),
+        text_for_user: None,
+        outcome: Some(Rc::new(the_wine_place)),
+    };
     my_entrance.add_possible_action(main_entrance_available_actions);
     my_entrance.add_possible_action(look_around_action);
     my_entrance.add_possible_action(ring_bell_action);
+    my_entrance.add_possible_action(go_to_left_room);
 
     // let dungeon_kitchen = Box::new(kitchen::Kitchen {
     //     possible_actions: vec![
@@ -114,5 +144,5 @@ fn make_game() -> Box<dyn RuleEngine> {
     //     possible_actions: vec!["ring bell".to_string(), "look around yourself".to_string()],
     //     exits: random_map,
     // };
-    Box::new(my_entrance)
+    Rc::new(my_entrance)
 }

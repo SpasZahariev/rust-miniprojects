@@ -1,7 +1,4 @@
-use std::collections::HashMap;
-
 use super::{
-    direction::Direction,
     room::{Room, RoomType},
     rule_engine::{Rule, RuleEngine},
 };

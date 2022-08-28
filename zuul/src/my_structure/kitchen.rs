@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use super::{
     direction::Direction,
     room::{Room, RoomType},
-    rule_engine::Rule,
+    rule_engine::{Rule, RuleEngine},
 };
 
 #[derive(Default)]
@@ -43,3 +43,5 @@ impl Room for Kitchen {
         &self.possible_actions
     }
 }
+
+impl RuleEngine for Kitchen {}

@@ -11,6 +11,7 @@ pub enum RoomType {
     Cemetary,
     Workshop,
     MainEntrance,
+    WineCeller,
 }
 
 //need to implement Display so that RoomTypes can be converted to strings and printed for Client facing messages
