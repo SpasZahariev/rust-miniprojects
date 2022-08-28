@@ -3,7 +3,7 @@ use std::fmt::{self};
 use super::{kitchen::Kitchen, main_entrance::MainEntrance, rule_engine::Rule};
 
 // Debug macro makes my enum usable with debug print
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum RoomType {
     Kitchen,
     SexDungeon,

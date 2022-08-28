@@ -2,9 +2,9 @@ mod my_structure;
 
 use colored::Colorize;
 use my_structure::direction::Direction;
-use my_structure::room::Room;
+use my_structure::room::{Room, RoomType};
 use my_structure::rule_engine::RuleEngine;
-use my_structure::{kitchen, main_entrance, rule_engine, wine_celler};
+use my_structure::{kitchen, main_entrance, rule_engine, wine_celler, all_purpose_room};
 use std::collections::HashMap;
 use std::io::stdin;
 use std::rc::Rc;
@@ -58,7 +58,7 @@ fn main() {
 }
 
 fn make_game() -> Rc<dyn RuleEngine> {
-    let mut my_entrance = main_entrance::MainEntrance::default();
+    let mut my_entrance = all_purpose_room::AllPurposeRoom::new(RoomType::MainEntrance);
     let main_entrance_available_actions = rule_engine::Rule {
         action_name: "actions".to_owned(),
         // text_for_user: my_entrance.get_possible_action_names(),
@@ -80,7 +80,7 @@ fn make_game() -> Rc<dyn RuleEngine> {
     };
     // let mut the_kitchen = kitchen::Kitchen::default();
     
-    let mut the_wine_place = wine_celler::WineCeller::default();
+    let mut the_wine_place= all_purpose_room::AllPurposeRoom::new(RoomType::MainEntrance);
     let knock_on_wine_barrels = rule_engine::Rule {
         action_name: "knock_barrels".to_owned(),
         text_for_user: Some("You hear a hollow sound. They must be empty".to_owned()),

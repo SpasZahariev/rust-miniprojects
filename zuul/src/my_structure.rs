@@ -1,3 +1,4 @@
+pub mod all_purpose_room;
 pub mod direction;
 pub mod kitchen;
 pub mod main_entrance;
