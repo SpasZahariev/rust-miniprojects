@@ -117,9 +117,16 @@ fn setup_sex_dungeon() -> AllPurposeRoom {
         text_for_user: Some("Wow... You must be pretty desperate to try that here!".to_owned()),
         outcome: None,
     };
+
+    let easter_egg_action= rule_engine::Rule {
+        action_name: "dusi".to_owned(),
+        text_for_user: Some("Oh no, the Spas has found you and slaps your cute butt ;) You suddenly regret searchign for this easter egg! ".to_owned()),
+        outcome: None,
+    };
     the_sex_dungeon.add_possible_action(sex_dungeon_actions);
     the_sex_dungeon.add_possible_action(turn_on_lights);
     the_sex_dungeon.add_possible_action(nasty_action);
+    the_sex_dungeon.add_possible_action(easter_egg_action);
     the_sex_dungeon
 }
 
